@@ -1,41 +1,53 @@
+//Cree una clase con un constructor y los pushee dentro de un array vacio.
+class productos {
+    constructor(id, nombre, precio) {
+        this.id = id;
+        this.nombre = nombre;
+        this.precio = parseFloat(precio);
+    }
 
-// Creo dos arrays, una con los productos y sus respectivos precios y otra vacia.
-const productos = [
-    { nombre: "harina", precio: 50 },
-    { nombre: "galletitas", precio: 100 },
-    { nombre: "cerveza", precio: 150 },
-    { nombre: "leche", precio: 200 },
-    { nombre: "gaseosa", precio: 250 },
-];
+}
+
+let misProductos = [];
 
 let carrito = [];
 
-//Utilizo prompt para preguntar al cliente si desea comprar algo o no. Con un bucle while proceso la decisión del cliente en caso de que sea afirmativo.
+misProductos.push(new productos(00, "harina", 50))
+misProductos.push(new productos(01, "galletitas", 100))
+misProductos.push(new productos(02, "cerveza", 150))
+misProductos.push(new productos(03, "leche", 200))
+misProductos.push(new productos(04, "gaseosa", 250))
 
-let seleccion = prompt("Hola, desea comprar algo? si o no");
+console.log(misProductos);
 
-while (seleccion != "si" && seleccion != "no") {
-    alert("Por favor ingresa si o no");
-    seleccion = prompt("Hola, desea comprar algo? si o no");
+
+let seleccion = prompt("Hola, ¿Desea comprar algo? || si o no");
+
+function ingresarMercado() {
+    while (seleccion != "si") {
+        if (seleccion == "no") {
+            alert("Hasta pronto")
+            break;
+        } else if (seleccion != "si" || seleccion != "no") {
+            alert("Debe seleccionar si o no")
+            seleccion = prompt("Hola, ¿Desea comprar algo? || si o no");
+        }
+    }
 }
 
-//Utilizo un condicional para mostrar la lista de productos al cliente, guardadas en una array anteriormente.
+ingresarMercado();
 
-
+//Recorrí el array con mis productos para mostrarselo al cliente en pantalla a través de un alert.
 
 if (seleccion == "si") {
     alert("Nuestra lista de productos a continuación");
-    let todoslosProductos = productos.map(
+    let todoslosProductos = misProductos.map(
         (producto) => producto.nombre + " " + producto.precio + "$"
     );
     alert(todoslosProductos.join(" - "));
-} else if (seleccion == "no") {
-    alert("Gracias por visitarnos. Hasta pronto!");
 }
 
-
-//Utilizo un bucle while para simular el proceso de compra preguntando cuantas y cuales unidades quiere llevar, agregandolas al array que dejé vacío.
-
+//Utilicé un bucle while con un condicional, junto con un switch para facilitar la selección de los productos a comprar.
 
 while (seleccion != "no") {
     let producto = prompt("Agregá un producto a tu carrito");
@@ -67,29 +79,33 @@ while (seleccion != "no") {
             default:
                 break;
         }
-        let unidades = parseInt(prompt("Cuantas unidades quiere llevar?"));
+        let unidades = parseInt(prompt("Cuantas unidades quiere llevar?"))
 
         carrito.push({ producto, unidades, precio });
         console.log(carrito);
+        carritoFinal();
     } else {
         alert("No contamos con ese producto");
     }
+}
 
+//Cree una función para el carrito final después de que el cliente seleccione los productos. En caso de querer agregar más, retorna a el bucle while anterior.
 
-//Le pregunto al cliente si quiere seguir comprando y, en el caso de que no, le muestro el carrito final con el total de dinero a abonar. 
-
+function carritoFinal() {
     seleccion = prompt("Desea seguir comprando? || si o no");
     while (seleccion == "no") {
-        alert("Gracias por su compra. Hasta pronto.");
+
         carrito.forEach((carritoFinal) => {
             console.log(
                 `producto: ${carritoFinal.producto}, unidades: ${carritoFinal.unidades
                 }, total a pagar por producto ${carritoFinal.unidades * carritoFinal.precio
                 }`
             );
+            alert("Gracias por su compra. Hasta pronto.");
         })
         break;
     }
 }
+
 const total = carrito.reduce((acc, el) => acc + el.precio * el.unidades, 0)
 alert(`El total a pagar por su compra es: ${total}`)
